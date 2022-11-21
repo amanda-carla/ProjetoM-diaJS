@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<div>
+    <h1 class="header-title">Calcular Média </h1>
+</div>
+<body>
+    <!-- formulario  pra nome de aluno, nota 1 e nota 2 nota 3-->
+    <form action="" method="">
+        <label for="nome">Nome do aluno</label>
+        <!-- adicionando matricula -->
+
+        <input type="text" name="nome" id="nome">
+        <label for="matricula"> matricula</label>
+        <input type="text" name="matricula" id="matricula">
+
+        <label for="nota1">Nota 1</label>
+        <input type="number" name="nota1" id="nota1">
+        <label for="nota2">Nota 2</label>
+        <input type="number" name="nota2" id="nota2">
+        <label for="nota3">Nota 3</label>
+        <input type="number" name="nota3" id="nota3">
+        <input id="button" type="submit" value="Enviar">
+    </form>
+   <table id="tabela">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Nota 1</th>
+            <th>Nota 2</th>
+            <th>Nota 3</th>
+            <th>Média</th>
+        </tr>
+    </thead>
+
+   </table>
+    <script>
+        class Aluno {
+
+nome;
+
+matricula;
+
+nota1;
+
+nota2;
+
+nota3;
+
+
+ constructor(nome, matricula, n1, n2, n3) {
+
+   this.nome = nome;
+
+   this.matricula = matricula;
+
+   this.nota1 = n1;
+
+   this.nota2 = n2;
+
+   this.nota3 = n3;
+
+}
+
+ exibeInfo() {
+
+   return `Aluno: ${this.nome} - mat: ${this.matricula}
+
+  Notas: N1: ${this.nota1} - N2: ${this.nota2} - N3: ${this.nota3}
+
+  Média:${this.calculaMedia()} 
+
+  `;
+
+}
+
+ calculaMedia() {
+
+   return ((this.nota1 + this.nota2 + this.nota3) / 3).toFixed(2);
+
+}
+
+}
+/* Faça, usando HTML e CSS, uma página para inserir e excluir alunos e suas notas em uma tabela (que deve exibir os alunos inseridos e suas notas), calculando a média delas usando o método calculaMedia() da classe Aluno. Use todos as técnicas de manipulação do DOM e captação de eventos estudadas em sala.
+*/
+/* pegar o valor do formulario e exibir o aluno em uma tabela html */
+const form = document.querySelector('form');
+const tabela = document.querySelector('#tabela');
+const alunos = [];
+form.addEventListener('submit', (e) => {
+        
+    e.preventDefault();
+    // ctranformar os dados em tipo float
+    
+    const nome = document.querySelector('#nome').value;
+    const nota1 = parseFloat(document.querySelector('#nota1').value);
+    const nota2 = parseFloat(document.querySelector('#nota2').value);
+    const nota3 = parseFloat(document.querySelector('#nota3').value);
+
+    const matricula = document.querySelector('#matricula').value;
+    const aluno = new Aluno(nome,matricula , nota1, nota2, nota3);
+    alunos.push(aluno);
+    console.log(alunos);
+    const tr = document.createElement('tr');
+    const tdNome = document.createElement('td');
+    const tdNota1 = document.createElement('td');
+    const tdNota2 = document.createElement('td');
+    const tdNota3 = document.createElement('td');
+    const tdMedia = document.createElement('td');
+    tdNome.textContent = aluno.nome;
+    tdNota1.textContent = aluno.nota1;
+    tdNota2.textContent = aluno.nota2;
+    tdNota3.textContent = aluno.nota3;
+    tdMedia.textContent = aluno.calculaMedia();
+    
+    tr.appendChild(tdNome);
+    tr.appendChild(tdNota1);
+    tr.appendChild(tdNota2);
+    tr.appendChild(tdNota3);
+    tr.appendChild(tdMedia);
+    tabela.appendChild(tr);
+    // criar button para excluir aluno
+    const tdExcluir = document.createElement('td');
+    const button = document.createElement('button');
+    button.textContent = 'Excluir';
+    tdExcluir.appendChild(button);
+    tr.appendChild(tdExcluir);
+    button.addEventListener('click', (e) => {
+        e.preventDefault();
+        const tr = e.target.parentNode.parentNode;
+        tr.remove();
+    });
+
+    
+    form.reset();
+
+});
+
+
+
+    </script>
+    
+</body>
+</html>
